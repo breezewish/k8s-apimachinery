@@ -18,7 +18,9 @@ package wait
 
 import (
 	"context"
+	"fmt"
 	"math/rand"
+	"runtime/debug"
 	"sync"
 	"time"
 
@@ -66,6 +68,10 @@ func (g *Group) StartWithContext(ctx context.Context, f func(context.Context)) {
 
 // Start starts f in a new goroutine in the group.
 func (g *Group) Start(f func()) {
+
+	fmt.Printf("Group.Start called with stack\n")
+	debug.PrintStack()
+
 	g.wg.Add(1)
 	go func() {
 		defer g.wg.Done()
